@@ -21,11 +21,13 @@ struct tuple_types_compatible<std::tuple<TupleTypes...>, Args...> {
 template<typename Tuple, typename... Args>
 inline constexpr bool tuple_types_compatible_v = tuple_types_compatible<Tuple, Args...>::value;
 
+
+struct empty{};
 }
 
 
 #define trait_add(retype, name, ...) \
-    namespace impl { [[maybe_unused]] void name(const decltype([]{})&&){} } \
+    namespace impl { [[maybe_unused]] void name(const traits::____detail::empty&&){} } \
     template <typename... Args> \
     auto name(Args&&... args) { \
         using DefArgs = std::tuple<__VA_ARGS__>; \
@@ -44,7 +46,7 @@ inline constexpr bool tuple_types_compatible_v = tuple_types_compatible<Tuple, A
 
     
 #define trait_add_tmpl(retype, name,...) \
-namespace impl { [[maybe_unused]] void name(const decltype([]{})&&){} } \
+namespace impl { [[maybe_unused]] void name(const traits::____detail::empty&&){} } \
 template <typename T, typename... Args> \
 auto name(Args&&... args) { \
     auto args_tuple = std::make_tuple(std::forward<Args>(args)...); \
